@@ -1,7 +1,6 @@
 /*
  *  Create a program that counts the number 
  *  of words in a string 
- * 
  *  
  *  Use spaces to indicate a new word
  */
@@ -17,9 +16,15 @@ int main () {
     cout << "Please enter a string of words separated by spaces: ";
     getline(cin, response);
 
+    while (response[response.length() - 1] == ' ' || response[0] == ' ') {
+        cout << "Please do not enter a space at the beginning or end of the string" << endl;
+        cout << "Please enter a string of words separated by spaces: ";
+        getline(cin, response);
+    }
+
     for (int idx = 0; idx < response.length(); idx++) {
-        //increase words if there is a space not at the end of the string
-        if (response[idx] == ' ' && idx < response.length() - 1) {
+        //increase words if there is a space 
+        if (response[idx] == ' ') {
             words++;
         }
     } //for
