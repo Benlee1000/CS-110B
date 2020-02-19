@@ -16,13 +16,13 @@
 using namespace std;
 
 const bool DBG = true;
+const string LETTERS[] = {"a", "b", "c", "\\n"};
 
 //returns the top bigram, both if tied
 string top_bigram(int bigrams_[4][4]) {
     int largest_value = 0, largest_row = 0, largest_col = 0, num_bigrams = 0;
     string largest_bigram;
-    const string LETTERS[4] = {"a", "b", "c", "\\n"};
-   
+
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             if (bigrams_[row][col] > largest_value) {
@@ -63,14 +63,13 @@ void display_largest_bigram(string largest_bigram_) {
 } //display_largest_bigram()
 
 int main() {
-    char letters[3] = {'a', 'b', 'c'};
     int bigrams[4][4] = {{2, 4, 8, 1}, {0, 10, 2, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
     int user_value;
     string largest_bigram;
     string largest_count;
 
     for (int idx = 0; idx < 3; idx++) {
-        cout << "Enter the value for bigram c" << letters[idx] <<": ";
+        cout << "Enter the value for bigram c" << LETTERS[idx] <<": ";
         cin >> user_value;
         bigrams[2][idx] =  user_value;
     } //for
