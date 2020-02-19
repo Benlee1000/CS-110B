@@ -55,8 +55,6 @@ string top_count(int bigrams_[4][4]) {
         letter_count[idx] = bigrams_[idx][0] + bigrams_[idx][1] + bigrams_[idx][2] + bigrams_[idx][3];
     } //for
 
-   
-
     //search for most common letter
     for (int idx = 0; idx < NUM_OF_LETTERS; idx++) {
         if (letter_count[idx] > highest) {
