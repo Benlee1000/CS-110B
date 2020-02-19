@@ -19,29 +19,48 @@ const bool DBG = true;
 
 //returns the top bigram, both if tied
 string top_bigram(int bigrams_[4][4]) {
-    //finds the largest bigram and records row and col
-    int largest = 0, largest_row = 0, largest_col = 0;
-    string largest_first_letter, largest_second_letter;
+    int largest_value = 0, largest_row = 0, largest_col = 0, num_bigrams = 0;
+    string largest_bigram;
     const string LETTERS[4] = {"a", "b", "c", "\\n"};
    
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
-            if (bigrams_[row][col] > largest) {
-                largest = bigrams_[row][col];
-                largest_first_letter = LETTERS[row];
-                largest_second_letter = LETTERS[col];
+            if (bigrams_[row][col] > largest_value) {
+                largest_value = bigrams_[row][col];
+                largest_bigram = LETTERS[row];
+                largest_bigram += LETTERS[col];
+                num_bigrams = 0;
             } //if
+            //if there are two largest, add on to largest bigram
+            else if (bigrams_[row][col] == largest_value) {
+                    largest_bigram += LETTERS[row];
+                    largest_bigram += LETTERS[col];
+                    num_bigrams++;
+            } //else if
         } //col for
     } //row for
 
-    //returns two letters put together
-    return largest_first_letter + largest_second_letter;
+    return largest_bigram;
 } //top_bigrams
 
 //returns the letter with the most counts, both if tied
 string top_count(int bigrams_[4][4]) {
 
 } //top_count()
+
+void display_largest_bigram(string largest_bigram_) {
+    string bigram_1, bigram_2;
+    if (largest_bigram_.length() == 2) {  //this works as long as /n is not single the largest bigram, which it never is
+        cout << "The largest bigram is " << largest_bigram_ << endl;
+    } //if
+
+    //for two bigrams, splits them up and displays a different message
+    else {
+        bigram_1 = largest_bigram_.substr(0,2);
+        bigram_2 = largest_bigram_.substr(2, largest_bigram_.length() - 2); //this allows the \n to be displayed
+        cout << "The largest bigrams are " << bigram_1 << " and " << bigram_2 << endl;
+    } //else
+} //display_largest_bigram()
 
 int main() {
     char letters[3] = {'a', 'b', 'c'};
@@ -59,11 +78,13 @@ int main() {
     largest_bigram = top_bigram(bigrams);
     largest_count = top_count(bigrams);
 
+    display_largest_bigram(largest_bigram);
+
 
 
     if (DBG) {
         
-        cout << "The largest bigram is " << largest_bigram <<endl;
+        
     }
 
     return 0;
