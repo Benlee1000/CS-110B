@@ -8,8 +8,8 @@
 ** 1.  Define 2D array
 ** 2.  Prompt user for bigrams that start with c and put into array
 ** 3.  Display bigram table
-** 4.  Call top_bigram and report results. There could be a tie.
-** 5.  Call top_count and report results. There could be a tie.
+** 4.  Call top_bigrams and report results. There could be a tie.
+** 5.  Call top_counts and report results. There could be a tie.
 **************************************************************************/  
 
 #include <iostream>
@@ -36,7 +36,7 @@ void show_bigrams_table(int bigrams_[4][4]) {
 } //show_bigrams_table
 
 //returns the top bigram, both if tied
-string top_bigram(int bigrams_[4][4]) {
+string top_bigrams(int bigrams_[4][4]) {
     int largest_value = 0, largest_row = 0, largest_col = 0, num_bigrams = 0;
     string largest_bigram;
 
@@ -61,7 +61,7 @@ string top_bigram(int bigrams_[4][4]) {
 } //top_bigrams
 
 //returns the letter with the most counts, both if tied 
-string top_count(int bigrams_[4][4]) {
+string top_counts(int bigrams_[4][4]) {
     int letter_count[4] = {0, 0, 0, 0};
     int highest = 0;
     string top_letter;
@@ -81,10 +81,10 @@ string top_count(int bigrams_[4][4]) {
         else if (letter_count[idx] == highest) {
             top_letter += LETTERS[idx];
         } //else if
-    } //top_count()
+    } //top_counts()
 
     return top_letter; 
-} //top_count()
+} //top_counts()
 
 void display_largest_bigram(string largest_bigram_) {
     string bigram_1, bigram_2;
@@ -103,44 +103,51 @@ void display_largest_bigram(string largest_bigram_) {
 void display_most_common_letter(string largest_count_) {
     string letter_1, letter_2;
     if (largest_count_.length() == 1) {  //this works as long as /n is not the single most common character, which it never is
-        cout << "The most common letter is \"" << largest_count_ << "\"" << endl;
+        cout << "The most common letter is \"" << largest_count_ << "\"\n" << endl;
     } //if
 
     //for a tie, splits the characters up and displays a different message
     else {
         letter_1 = largest_count_[0];
         letter_2 = largest_count_.substr(1, largest_count_.length() - 1); //this allows the \n to be displayed
-        cout << "The most common letters are \"" << letter_1 << "\" and \"" << letter_2 << "\"" << endl;
+        cout << "The most common letters are \"" << letter_1 << "\" and \"" << letter_2 << "\"\n" << endl;
     } //else
 } //display_largest_bigram()
 
 int main() {
     int bigrams[4][4] = {{2, 4, 8, 1}, {0, 10, 2, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    int user_value;
+    int user_value, iterations;
     string largest_bigram;
     string largest_count;
 
     cout << "**** Welcome to the bigram and letter counting program ****\n\n";
 
-    //ask user for c bigrams
-    for (int idx = 0; idx < 3; idx++) {
-        cout << "Enter the value for bigram c" << LETTERS[idx] <<": ";
-        cin >> user_value;
-        bigrams[2][idx] =  user_value;
-    } //for
+    cout << "How many times would you like the program to run? ";
+    cin >> iterations;
 
-    show_bigrams_table(bigrams);
+    //loop through program as many times as user wants
+    for (int i = 0; i < iterations; i++) {
+        //ask user for c bigrams
+        for (int idx = 0; idx < 3; idx++) {
+            cout << "Enter the value for bigram c" << LETTERS[idx] <<": ";
+            cin >> user_value;
+            bigrams[2][idx] =  user_value;
+        } //for
 
-    largest_bigram = top_bigram(bigrams);
-    largest_count = top_count(bigrams);
+        show_bigrams_table(bigrams);
 
-    display_largest_bigram(largest_bigram);
-    display_most_common_letter(largest_count);
+        largest_bigram = top_bigrams(bigrams);
+        largest_count = top_counts(bigrams);
+
+        display_largest_bigram(largest_bigram);
+        display_most_common_letter(largest_count);
+    }
 
     if (DBG) {
 
     }
 
+    cout << "Goodbye!" << endl;
     return 0;
 } //main
 
@@ -148,9 +155,9 @@ int main() {
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
 
-***************************** Test 1 **************************************
 **** Welcome to the bigram and letter counting program ****
 
+How many times would you like the program to run? 2
 Enter the value for bigram ca: 1
 Enter the value for bigram cb: 7
 Enter the value for bigram cc: 7
@@ -163,9 +170,6 @@ c       1       7       7       0
 
 The largest bigram is "bb"
 The most common letters are "a" and "c"
-
-***************************** Test 2 **************************************
-**** Welcome to the bigram and letter counting program ****
 
 Enter the value for bigram ca: 20
 Enter the value for bigram cb: 20
@@ -180,4 +184,26 @@ c       20      20      1       0
 The largest bigrams are "ca" and "cb"
 The most common letter is "c"
 
+Goodbye!
+
 **************************************************************************/ 
+
+/*
+ else {
+            //create a result string like; E, O, and U
+            string result = "";
+            result.push_back(max_vowels[0]);
+            result += ", ";
+            //result could be "E, "
+            for (int idx = 1; idx < max_vowels.length() -1; ++idx) {
+                //append a vowel to the result string
+                result.push_back(max_vowels[idx]);
+                result += ", ";
+            } //for
+            //append the last vowel to the result string
+
+            cout << "The vowels with the high count are " << result << ", count = " << vcounts_[max_idx] << endl;
+        } //there are more than two max vowels
+    } //else there is more than one top vowel
+
+ */
