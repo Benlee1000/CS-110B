@@ -120,6 +120,8 @@ int main() {
     string largest_bigram;
     string largest_count;
 
+    cout << "**** Welcome to the bigram and letter counting program ****\n\n";
+
     //ask user for c bigrams
     for (int idx = 0; idx < 3; idx++) {
         cout << "Enter the value for bigram c" << LETTERS[idx] <<": ";
@@ -146,6 +148,9 @@ int main() {
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
 
+***************************** Test 1 **************************************
+**** Welcome to the bigram and letter counting program ****
+
 Enter the value for bigram ca: 1
 Enter the value for bigram cb: 7
 Enter the value for bigram cc: 7
@@ -158,6 +163,9 @@ c       1       7       7       0
 
 The largest bigram is "bb"
 The most common letters are "a" and "c"
+
+***************************** Test 2 **************************************
+**** Welcome to the bigram and letter counting program ****
 
 Enter the value for bigram ca: 20
 Enter the value for bigram cb: 20
