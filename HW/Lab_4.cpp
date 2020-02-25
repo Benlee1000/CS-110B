@@ -31,13 +31,15 @@ void show_bigrams_table(int bigrams_[4][4]) {
     cout << "\n\t" << LETTERS[0] << "\t" << LETTERS[1] << "\t" << LETTERS[2] << "\t" << LETTERS[3] << endl;
     
     //display letter and values of bigrams in table
-    for (int idx = 0; idx < NUM_OF_LETTERS; idx++) {
-        cout << LETTERS[idx] << "\t" << bigrams_[idx][0] << "\t" << bigrams_[idx][1] << "\t" << bigrams_[idx][2] << "\t" << bigrams_[idx][3] << endl;
-        //display extra space at end of table
-        if (idx == NUM_OF_LETTERS - 1) {
-            cout << "\n";
+    for (int row = 0; row < NUM_OF_LETTERS; row++) {
+        cout << LETTERS[row] << "\t";
+        for (int col = 0; col < NUM_OF_LETTERS; col++) {
+            cout << bigrams_[row][col] << "\t";
         }
+        cout << "\n";
     }
+    cout << "\n";
+
 } //show_bigrams_table
 
 //returns the top bigram, both if tied
@@ -104,13 +106,13 @@ void display_largest_bigram(string largest_bigram_) {
         message_str += "\"";
 
         if (DBG){
-            cout << "bigram string length: " << largest_bigram_.length() << endl;
+            cout << "DBG: bigram string length: " << largest_bigram_.length() << endl;
         } // DBG show bigram string length to compare with
 
         for (int idx = 1 ; (idx+1) * 2 <= largest_bigram_.length(); ++idx){
 
             if (DBG){
-                cout << "check for last bigram, >= to bigram str length " << ((idx+1)*2)+1 << " " << (largest_bigram_.length() < ((idx+1)*2)+1) << endl;
+                cout << "DBG: check for last bigram, >= to bigram str length " << ((idx+1)*2)+1 << " " << (largest_bigram_.length() < ((idx+1)*2)+1) << endl;
             } // DBG value for checking for last bigram
 
             if (((idx+1)*2)+1 >= largest_bigram_.length() ){ // check for last bigram
@@ -125,7 +127,7 @@ void display_largest_bigram(string largest_bigram_) {
                 message_str += "\"";
 
                 if (DBG){
-                    cout << "last bigram length " << largest_bigram_.length()-idx*2 << endl;
+                    cout << "DBG: last bigram length " << largest_bigram_.length()-idx*2 << endl;
                 } // DBG last bigram length check
             } // if last bigram
             else{
