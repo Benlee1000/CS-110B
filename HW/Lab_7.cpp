@@ -65,12 +65,14 @@ class CSV {
 
 
 int main() {
-    string fromDB = "";
-    CSV csv = new CSV(fromDB);
+    string fromDB = "06075,San Francisco,California,US,2020-04-01 21:58:49,37.75215114";
+    CSV * csv = new CSV(fromDB);
     csv->setFields();
-
     vector<string> f = csv->getFields();
-    cout << f.at(4);
+    for (int idx = 0; idx < f.size(); ++idx) {
+        cout << idx << ". " << f.at(idx) << endl;
+    } //for
+    
 }
 
 /************************************************************************** 
