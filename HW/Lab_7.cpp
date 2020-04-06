@@ -5,9 +5,9 @@
 ** 
 *************************************************************************** 
 **********************************    Design    *************************** 
-** 1.  
-** 2.
-** 3. 
+** 1.   Create CSV class with constructor   
+** 2.   Create setter for CSV that separates a string by the commas
+** 3.   Display the separted values
 **************************************************************************/
 
 /*
@@ -68,7 +68,7 @@ int main() {
     csv->setFields();
     vector<string> f = csv->getFields();
     for (int idx = 0; idx < f.size(); ++idx) {
-        cout << idx << ". " << f.at(idx) << endl;
+        cout << idx + 1 << ". " << f.at(idx) << endl;
     } //for
     
 }
@@ -77,5 +77,11 @@ int main() {
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
 
+1. 06075
+2. San Francisco
+3. California
+4. US
+5. 2020-04-01 21:58:49
+6. 37.7521511
 
 **************************************************************************/ 
