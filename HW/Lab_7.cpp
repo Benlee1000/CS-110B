@@ -30,7 +30,6 @@ class CSV {
     string line;
     vector<string> fields;
     int starting_point = 0;
-    int field_number = 0;
     
     public:
         CSV(string line_) {
@@ -38,19 +37,18 @@ class CSV {
         } //constuctor
         vector<string> getFields() {return this->fields;}
         void setFields() {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line[idx] == ',') {
-                        //if there is a comma, create a substring from start to comma, not including commma
-                        fields.at(field_number) = line.substr(starting_point, idx - starting_point - 1);
-                        //increase field_number for next entry, set new starting point to after comma
-                        field_number++;
-                        starting_point = idx + 1; 
-                    }
-                    else if (idx == line.length() - 1) {
-                        //create one more field for last item in CSV
-                        fields.at(field_number) = line.substr(starting_point, idx - starting_point);
-                    }
+            for (int idx = 0; idx < line.length(); idx++) {
+                if (line[idx] == ',') {
+                    //if there is a comma, create a substring from start to comma, not including commma
+                    fields.push_back(line.substr(starting_point, idx - starting_point));
+                    //increase field_number for next entry, set new starting point to after comma
+                    starting_point = idx + 1; 
                 }
+                else if (idx == line.length() - 1) {
+                    //create one more field for last item in CSV
+                    fields.push_back(line.substr(starting_point, idx - starting_point));
+                }
+            }
 
             /*
             parse this->line into fields
