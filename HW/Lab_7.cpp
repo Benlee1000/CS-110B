@@ -37,6 +37,16 @@ class CSV {
         } //constuctor
         vector<string> getFields() {return this->fields;}
         void setFields() {
+            /*
+            parse this->line into fields
+            e.g. suppose line was: "San Francisco, 123, 5.72"
+            Then setFields would intialize the fields string vector with 
+            3 strings: this->fields.at(0) would be "San Francisco",
+                       this->fields.at(1) would be "123"
+                       this->fields.at(2) would be "5.72"
+            */
+
+            /* Old code using for loop before learning the use of find method
             for (int idx = 0; idx < line.length(); idx++) {
                 if (line[idx] == ',') {
                     //if there is a comma, create a substring from start to comma, not including commma
@@ -49,15 +59,25 @@ class CSV {
                     fields.push_back(line.substr(starting_point, idx - starting_point));
                 }
             }
-
-            /*
-            parse this->line into fields
-            e.g. suppose line was: "San Francisco, 123, 5.72"
-            Then setFields would intialize the fields string vector with 
-            3 strings: this->fields.at(0) would be "San Francisco",
-                       this->fields.at(1) would be "123"
-                       this->fields.at(2) would be "5.72"
             */
+
+            while(true){
+                int delim_point = line.find(','); // index position of ','
+                if (delim_point == string::npos){
+                    fields.push_back(line);
+                    break;
+                } // if: can't find ',' place line in last vector postion and break
+                else{
+                    // create substring from beginning of line up to before the ',' and place in vector
+                    fields.push_back(line.substr(0, delim_point++));
+                    // replace line with line removing substring put in vector and the ','
+                    line = line.substr(delim_point, line.length() - delim_point);
+                } // else
+                if (line.empty()){
+                    break;
+                } // if: line after ',' is empty, break
+            }
+
         }
 };
 
