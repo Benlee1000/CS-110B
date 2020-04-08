@@ -69,8 +69,9 @@ class CSV {
                 } // if: can't find ',' place line in last vector postion and break
                 else{
                     // create substring from beginning of line up to before the ',' and place in vector
+                    // index position is one less than number of characters, so delim_point as number of chars excludes ','
                     fields.push_back(line.substr(0, delim_point++));
-                    // replace line with line removing substring put in vector and the ','
+                    // replace line with line removing the previous substring alogn with the ','
                     line = line.substr(delim_point, line.length() - delim_point);
                 } // else
                 if (line.empty()){
