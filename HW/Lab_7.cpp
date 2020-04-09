@@ -5,21 +5,24 @@
 ** 
 *************************************************************************** 
 **********************************    Design    *************************** 
-** 1.   Create CSV class with constructor   
-** 2.   Create setter for CSV that separates a string by the commas
-** 3.   Display the separted values
+** 1.   In setField, make a while loop
+** 2.   Use .find method to look for ',' delimiter's index position
+** 3.   If no additional separators are found, add remainder of string to 
+        vector fields with push_back and exit while loop
+** 4.   If separator is found, make a substring from start of string with 
+        a length of the delimiter's index position. Add substring to 
+        vector fields with push_back
+** 5.   Replace line with line removing the previous substring along with 
+        the ','
+** 6.   If the modified line is empty, break to exit loop
 **************************************************************************/
 
 /*
     CSV -- comma separated value. You can export an excel spreadsheet or
     some other DB into a text file, in which the entries of each row in 
     the base are seprated by commas.
-
-    Notes:
-    Made set fields to separate string
-    Lines 69,70,72 have errors that I don't know how to fix
-    Waiting for Mr. Pico to give us the data to break up
 */
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -70,8 +73,8 @@ class CSV {
                 else{
                     // create substring from beginning of line up to before the ',' and place in vector
                     // index position is one less than number of characters, so delim_point as number of chars excludes ','
-                    fields.push_back(line.substr(0, delim_point++));
-                    // replace line with line removing the previous substring alogn with the ','
+                    fields.push_back(line.substr(starting_point, delim_point++));
+                    // replace line with line removing the previous substring along with the ','
                     line = line.substr(delim_point, line.length() - delim_point);
                 } // else
                 if (line.empty()){
@@ -80,29 +83,53 @@ class CSV {
             }
 
         }
+        string getLine() { return this->line; }
 };
 
 
 int main() {
-    string fromDB = "06075,San Francisco,California,US,2020-04-01 21:58:49,37.75215114";
+  
+    string fromDB =
+    //  0      1           2        3            4             5
+    "06075,San Francisco,California,US,2020-04-01 21:58:49,37.75215114";
+
+    //initialize a new CSV object, using the string fromDB
     CSV * csv = new CSV(fromDB);
+    cout << "The text stored in the csv object is \"" << csv->getLine() << "\"" << endl;
+
+    //for the lab, I want you to complete the getFields method started up above
     csv->setFields();
+
+    //And then after you get them, retrieve them with the getFields method
     vector<string> f = csv->getFields();
+
+    //cout << f.at(4) << endl;
+
     for (int idx = 0; idx < f.size(); ++idx) {
-        cout << idx + 1 << ". " << f.at(idx) << endl;
-    } //for
-    
+        cout << idx << ". " << f.at(idx) << endl;
+    }
+    /* 
+     * The outut should look like this:
+     * 0.  06075
+     * 1.  San Francisco
+     * 2.  California
+     * 3.  US
+     * 4. 2020-04-01 21:58:49
+     * 5. 37.75214114
+     */
+  
 }
 
 /************************************************************************** 
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
 
-1. 06075
-2. San Francisco
-3. California
-4. US
-5. 2020-04-01 21:58:49
-6. 37.7521511
+The text stored in the csv object is "06075,San Francisco,California,US,2020-04-01 21:58:49,37.75215114"
+0. 06075
+1. San Francisco
+2. California
+3. US
+4. 2020-04-01 21:58:49
+5. 37.75215114
 
 **************************************************************************/ 
