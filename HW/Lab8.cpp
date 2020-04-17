@@ -5,8 +5,8 @@
 ** 
 *************************************************************************** 
 **********************************    Design    *************************** 
-** 1.  
-** 2.
+** 1.  Fill out commented sections 
+** 2.  So that the program prints out the values from the cfgBA.txt file
 ** 3. 
 **************************************************************************/
 
@@ -37,42 +37,50 @@ void cfg(Directory &bFilter_,  Directory &aFilter_, TextList &bNames_, TextList 
   long baPopulation = 0;
   //v1.0 selects Bay Area counties, broadly construed.
   ifstream baCfgFile;
-  //Lab 8: open baCfgFile using the name BA_COUNTY_CFG_FILE
+  //Lab 8: open baCfgFile using the name BA_COUNTY_CFG_FILE -done-
+  baCfgFile.open(BA_COUNTY_CFG_FILE);
   testFileOpen(baCfgFile,BA_COUNTY_CFG_FILE);
 
 
   string county;
   long countyPopulation;
   while (true) {
-    //Lab8: Try to read a from baCfgFile into county
+    //Lab8: Try to read a from baCfgFile into county ??
     if (baCfgFile.eof()) { break; }
-    //Lab 8: supply line for adding to bNames_
+    //Lab 8: supply line for adding to bNames_ ??
 
     string popStr;
-    //Lab 8: read a line from baCfgFile into popStr
+    //Lab 8: read a line from baCfgFile into popStr -done-
+    getline(baCfgFile, popStr);
     countyPopulation = stol(popStr);
     baPopulation += countyPopulation;
 
-    //Lab 8: complete line for adding county to directory
+    //Lab 8: complete line for adding county to directory ??
     //bFilter_[ ?? ] = ?? 
   }  //while reading in BA counties
-  //Lab8: close baCfgFile
+
+  //Lab8: close baCfgFile -done-
+  baCfgFile.close();
 
   long aggregatePopulation;
   string aggName;
   Aggregator *terra, *us, *ca, *agg;
 
   ifstream aggCfgFile;
-  //Lab 8: open for aggCfgFile for reading using name AGGREGATES_CFG_FILE
+  //Lab 8: open for aggCfgFile for reading using name AGGREGATES_CFG_FILE -done-
+  aggCfgFile.open(AGGREGATES_CFG_FILE);
   testFileOpen(aggCfgFile,AGGREGATES_CFG_FILE);
 
   while (true) {
-    //Lab 8: Try to read a line from aggCfgFile into aggName
+    //Lab 8: Try to read a line from aggCfgFile into aggName -done-
+    getline(aggCfgFile, aggName);
     if (aggCfgFile.eof()) { break; }
-    //Lab 8: supply line for adding to aNames_
+    //Lab 8: supply line for adding to aNames_ -done-
+    aNames_.push_back(aggName);
 	
     string popStr;
-    //Lab 8: Try to read a line from aggCfgFile into popStr
+    //Lab 8: Try to read a line from aggCfgFile into popStr -done-
+    getline(aggCfgFile, popStr);
     aggregatePopulation = stol(popStr);    //convert string to long
     if (aggName == Terra) { //Planet-wide
       agg = new Aggregator(NULL,aggName);
@@ -92,10 +100,12 @@ void cfg(Directory &bFilter_,  Directory &aFilter_, TextList &bNames_, TextList 
       agg = new Aggregator(terra, "", aggName);
     }
 
-    //Lab 8: add two lines needed to set agg population and add
-    // the aggregate to the aFilter_ directory 
+    //Lab 8: add two lines needed to set agg population and add ??
+    //the aggregate to the aFilter_ directory ??
+
     //agg->??
     //aFilter_[ ?? ] = ??
+
   }  //while reading in aggregates
     aggCfgFile.close();  
 }//cfg()
@@ -103,10 +113,10 @@ void cfg(Directory &bFilter_,  Directory &aFilter_, TextList &bNames_, TextList 
 int main( ) {
   Directory bFilter, aFilter;
   TextList bNames, aNames;
-  //Lab 8: restore the call to cfg to set up the directory and name lists.
-  //cfg(bFilter, aFilter,bNames, aNames);
+  //Lab 8: restore the call to cfg to set up the directory and name lists. -done-
+  cfg(bFilter, aFilter,bNames, aNames);
 
-  //Lab 8:comment out the 4 lines below
+  //Lab 8:comment out the 4 lines below -done-
   //bNames.push_back("Generic B");    
   //bFilter[bNames.at(0)] = new Grp_spec(123);
   //aNames.push_back("Generic A");
