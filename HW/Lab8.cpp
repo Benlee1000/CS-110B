@@ -1,3 +1,15 @@
+/************************************************************************** 
+**************************    Honor Code Affirmation **********************
+**   We, Benjamin Lee and Leighton Yan, have not given or received 
+**   inappropriate help with this assignment. 
+** 
+*************************************************************************** 
+**********************************    Design    *************************** 
+** 1.  
+** 2.
+** 3. 
+**************************************************************************/
+
 #include "pandemicTracker.hpp"
 
 Aggregator::Aggregator(Aggregator *parent, string planet, string country,
@@ -21,8 +33,7 @@ void testFileOpen(ifstream &f, const string name) {
 } //testFileOpen()
 
 
-void cfg(Directory &bFilter_,  Directory &aFilter_,
-	 TextList &bNames_, TextList &aNames_) {
+void cfg(Directory &bFilter_,  Directory &aFilter_, TextList &bNames_, TextList &aNames_) {
   long baPopulation = 0;
   //v1.0 selects Bay Area counties, broadly construed.
   ifstream baCfgFile;
@@ -36,7 +47,7 @@ void cfg(Directory &bFilter_,  Directory &aFilter_,
     //Lab8: Try to read a from baCfgFile into county
     if (baCfgFile.eof()) { break; }
     //Lab 8: supply line for adding to bNames_
-	
+
     string popStr;
     //Lab 8: read a line from baCfgFile into popStr
     countyPopulation = stol(popStr);
@@ -96,10 +107,10 @@ int main( ) {
   //cfg(bFilter, aFilter,bNames, aNames);
 
   //Lab 8:comment out the 4 lines below
-  bNames.push_back("Generic B");    
-  bFilter[bNames.at(0)] = new Grp_spec(123);
-  aNames.push_back("Generic A");
-  aFilter[aNames.at(0)] = new Grp_spec(456);
+  //bNames.push_back("Generic B");    
+  //bFilter[bNames.at(0)] = new Grp_spec(123);
+  //aNames.push_back("Generic A");
+  //aFilter[aNames.at(0)] = new Grp_spec(456);
   
   string name = bNames.at(0);
   long population = bFilter[name]->getPopulation();
@@ -115,4 +126,11 @@ int main( ) {
        << " is " << population << "." << endl;
 
 } //main
+
+/************************************************************************** 
+************************   Test Report   ********************************** 
+** Worked as designed, as shown by a transcript of program execution:
+
+
+**************************************************************************/ 
 
