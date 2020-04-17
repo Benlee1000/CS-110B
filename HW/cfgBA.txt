@@ -1,0 +1,12 @@
+Alameda
+1663000
+Contra Costa
+1147000
+Marin
+260955
+San Francisco
+884363
+San Mateo
+727909
+Santa Clara
+1938000
