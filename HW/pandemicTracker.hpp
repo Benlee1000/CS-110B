@@ -6,6 +6,8 @@
 #include <math.h>
 #include <ctype.h>
 #include <iomanip>
+#include <cstring>
+
 
 using namespace std;
 
@@ -209,7 +211,7 @@ protected:
   string country;
   float longtitude;
   float latitude;
-  long population;
+  long long population;
 
   //Keep one sample for every day in the analysis interval.
   vector<Sample> samples; 
@@ -226,8 +228,8 @@ protected:
   void add(Sample sample) {this->samples.push_back(sample);}
   string toString();
   int getSampleSize() { return this->samples.size();}
-  long getPopulation() { return this->population; }
-  void setPopulation(long p) {this->population = p; return;}
+  long long getPopulation() { return this->population; }
+  void setPopulation(long long p) {this->population = p; return;}
   Sample getSample(int idx) { return this->samples[idx]; };          
   float CompoundDailyGrowthRate(int first,int last, char category = 'C');
   void  clear() { this->samples.clear(); }
@@ -334,15 +336,15 @@ public:
 
 
 struct Grp_spec{
-  long population;
+  long long population;
   Grouping *grp;
   Aggregator *agg;
-  long getPopulation() { return this->population; }
+  long long getPopulation() { return this->population; }
 
   Aggregator *getAgg() { return this->agg;} 
   Grouping * asGrp () { Grouping *g = this-> agg != NULL ?
       (Grouping *) agg : this -> grp; return g;  }
-  Grp_spec (long p, Aggregator *agg)
+  Grp_spec (long long p, Aggregator *agg)
   { this->population = p; this->grp = NULL;this->agg = agg;}
   Grp_spec (long p)
   { this->population = p; this->grp = NULL;this->agg = NULL;}
