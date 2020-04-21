@@ -119,12 +119,12 @@ void cfg(Directory &bFilter_,  Directory &aFilter_, TextList &bNames_, TextList 
       agg = new Aggregator(terra, "", aggName);
     }
 
-    //Lab 8: add two lines needed to set agg population and add ?? -done-? L
-    //the aggregate to the aFilter_ directory ??
+    //Lab 8: add two lines needed to set agg population and add  -done-? L
+    //the aggregate to the aFilter_ directory 
     
-    //agg->??
+    //agg-> -done-
     agg->setPopulation(aggregatePopulation);
-    //aFilter_[ ?? ] = ??
+    //aFilter_[ ?? ] = -done-
     aFilter_[aggName] = new Grp_spec(agg->getPopulation(), agg);
 
   }  //while reading in aggregates
@@ -161,7 +161,8 @@ int main( ) {
 /************************************************************************** 
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
-
+The estimated population of Alameda County is 1663000.
+The estimated population of Terra is 7530000000.
 
 **************************************************************************/ 
 
