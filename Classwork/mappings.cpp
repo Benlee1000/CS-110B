@@ -15,16 +15,16 @@ class B {
   char c;
 
 public:
-     //Note the dereferencing *
-  int getIpVal(){ return *this->iPtr; }
+    //Note the dereferencing *
+    int getIpVal(){ return *this->iPtr; }
   
-  char getC() { return this->c; }
+    char getC() { return this->c; }
 
-  void setC(char c) { this-> c = c;}
-  B(const int *ip) {
-    this->iPtr = ip;
-    this->c = 'w';
-  } //B constructor
+    void setC(char c) { this-> c = c;}
+    B(const int *ip) {
+        this->iPtr = ip;
+        this->c = 'w';
+    } //B constructor
 }; //class B
 
 class D: public B {
@@ -130,8 +130,7 @@ int main( )
   //               ^^
   int delimPos = dateTimeStr.find("/");
   if (delimPos == string::npos) {delimPos = dateTimeStr.find(":");}
-  string subs =
-    dateTimeStr.substr(delimPos+1,dateTimeStr.length() - delimPos);
+  string subs = dateTimeStr.substr(delimPos+1,dateTimeStr.length() - delimPos);
   //Consider this.  The number of values between any two integers (inclusive)
   // is the the difference between those integers + 1.
   // For example, the number of values between 7 and 9  is 3: 7, 8, and 9.
