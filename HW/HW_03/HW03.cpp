@@ -233,10 +233,13 @@ void CSV::makeFields(string text, string fieldDelim, vector<string> *fields) {
 // information in a string
 Aggregagtor::toString() {
 
-  //mp How would we get the Aggregator name?
-  
+    //mp How would we get the Aggregator name?
+    //Aggregator::toString() will need to call Grouping::toString()
+    //And possibly make some adjustments to the name
+    //I'll send out email tonight explaining how to call a base class
+    //method with the same name as a method in the derived class.
     _______________________;
-    …;
+
 } //Aggregator::toString() 
 
 
@@ -247,16 +250,19 @@ Grouping::toString() {
     char text2[4000];  //Create another C-string buffer
 
     sprintf(text," … ", …, …);
-    strcpy(text2,text);
+    strcpy(text2,text); //copies text into text2
 
+    //Use the string you constucted before, which is now
+    // in text2, as the basis a new version text that
+    // will contain more stuff
     sprintf(text,"%s  …",text2, …, …);
-    strcpy(text2,text);
+    strcpy(text2,text); //copy the enhaned version of text into text2.
 
     sprintf(text,"%s  …",text2, …, …);
 
     string description = text; //Convert C to C++style string
     return description;
-} //toString() ?? not sure what this is
+} //toString() ?? not sure what this is for, could be a typo
 
   
   
@@ -278,10 +284,10 @@ void Aggregator::add(vector<string> f) {
     if (this->getSampleSize() > 0) {
         //mp HW #3: set curSample to a pointer to the last (most recent) Sample
         // object in this->samples
-        curSample = ___________________________________________________;
+        curSample = this->samples[this->samples.size() - 1;
 
         //mp HW #3: get the date string from curSample
-        curDateStr = __________________________________________________________
+        curDateStr = getDateStr();
     } //if aggregator has at least one sample  
 
     Sample *sample;
@@ -308,12 +314,15 @@ void Aggregator::add(vector<string> f) {
         //  the same name as a derived method?
         this->____________________________________ ;
     
-    } //if this is the first sample, or the date has changd
+    }   //if this is the first sample, or the date has changed, then
+        // you need to create a new Sample object and append to the
+        // samples vector.
     else if (newDateStr.compare(curDateStr) == 0) {
 
         try {
             //mp HW 3: Increase the last (most recent) Aggregator object 
             // sample with by the amounts in the DB rec.
+            //obj. var.     method name.
             ____________->__________(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE]));
         } catch(exception &e) {
             //Exception most likely caused stoi() trying to convert a non-numeric

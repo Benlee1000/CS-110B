@@ -4,9 +4,21 @@ Contra Costa
 1147000
 Marin
 260955
+Napa
+140973
+Sacramento
+1531000
 San Francisco
 884363
+San Joaquin
+745424
 San Mateo
 727909
 Santa Clara
 1938000
+Solano
+445458
+Sonoma
+504217
+Stanislaus
+547899
