@@ -1,5 +1,6 @@
 #include <time.h>
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <vector>
 #include <unordered_map>

@@ -1,5 +1,6 @@
 #include "pandemicTracker.hpp"
 
+
 time_t CSV::parseDateTime(string dateTime) {
     //DB timestamp look like thisP: 3/22/20 23:45
     int blankPos = dateTime.find(BLANK);
@@ -477,46 +478,74 @@ void nextDay(int &m, int &d, int &y) {
     switch(m) {
         //30 day months are April, June, September, November
         case 4:
+            if ( d < 30) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 6:
+            if ( d < 30) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 9:
+            if ( d < 30) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 11:
-        if ( d < 30) { d++; return; }
-        else { d = 1; m++; return; }
-        break;
+            if ( d < 30) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 1:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 3:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 5:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 7:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 8:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 10:
+            if ( d < 31) { d++; return; }
+            else { d = 1; m++; return; }
+            break;
         case 12:
-        //31 days months Jan, Mar, May, Jul, Aug, Oct, Dec
-        if ( d < 31) { d++; return; }
-        else if (m < 12)  { d = 1; m++; return; }
-        else {
-            d = 1;
-            m = 1;
-            y++;
-            return;
-        } //else it's New Years Day
-        break;
-        case 2:
-        //February has 28 days, except if has 29 on leap years.
-        //A leap year is year such that y % 4 = 0 and y %100 != 0
-        // except if y % 400 = 0;
-        if (d < 28) { d++; return;}
-        else if (d == 29) {m++; d =1; return;  }
-        else {
-            if (y % 4 ==0 && (y % 100 != 0 || y % 400 == 0 ) ) { 
-                d++;
+            //31 days months Jan, Mar, May, Jul, Aug, Oct, Dec
+            if ( d < 31) { d++; return; }
+            else if (m < 12)  { d = 1; m++; return; }
+            else {
+                d = 1;
+                m = 1;
+                y++;
                 return;
-            } //if leap year
-            else { d = 1; m++; return; }  //not a leap year
+            } //else it's New Years Day
+            break;
+        case 2:
+            //February has 28 days, except it has 29 on leap years.
+            //A leap year is year such that y % 4 = 0 and y %100 != 0
+            // except if y % 400 = 0;
+            if (d < 28) { d++; return;}
+            else if (d == 29) {m++; d =1; return;  }
+            else {
+                if (y % 4 ==0 && (y % 100 != 0 || y % 400 == 0 ) ) { 
+                    d++;
+                    return;
+                } //if leap year
+                else { d = 1; m++; return; }  //not a leap year
 
-        } //else
+            } //else
     } //switch
 
 } //nextDay
+
 //mp HW3 part 1 is to complete the definition of makeNextFileName  
 string makeNextFileName() {
     static string csvFileName = NULL_STRING;    
