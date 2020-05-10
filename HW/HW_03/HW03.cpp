@@ -284,18 +284,18 @@ void Aggregator::add(vector<string> f) {
 
     if (this->getSampleSize() > 0) {
         //mp HW #3: set curSample to a pointer to the last (most recent) Sample
-        // object in this->samples
+        // object in this->samples -done-
         curSample = this->samples[this->samples.size() - 1;
 
-        //mp HW #3: get the date string from curSample
+        //mp HW #3: get the date string from curSample -done-
         curDateStr = getDateStr();
     } //if aggregator has at least one sample  
 
     Sample *sample;
     // mp HW #3: Construct a boolean that is true if the Aggregator object
     // doesn't have any samples yet, OR the date in the DB rec is more recent 
-    // than the date of the last (and therefore most recent sample.
-  if (   (____________________________________) || (__________________________________)) {
+    // than the date of the last (and therefore most recent) sample. -not sure how to check this-
+  if ((f.size == 0) || (__________________________________)) {
         time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
         if (timeStamp == DB_ERROR) {
             cout << "Aggregator::add()/new sample: invalid timestamp" << endl;
@@ -312,19 +312,22 @@ void Aggregator::add(vector<string> f) {
 
         //mp HW #3: add a new sample to Aggregtor object, which is also
         //  a Grouping object.  How does one call a base class method with
-        //  the same name as a derived method?
-        this->____________________________________ ;
+        //  the same name as a derived method? -I'm pretty sure this is done-
+        this->Grouping::add(sample_obj);
     
     }   //if this is the first sample, or the date has changed, then
         // you need to create a new Sample object and append to the
-        // samples vector.
+        // samples vector. -not exactly sure how to finish this, but this should be a start-
+        if(  || ) {
+            f.append(new Sample(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE]), timeStamp,newDateStr))
+        }
     else if (newDateStr.compare(curDateStr) == 0) {
 
         try {
             //mp HW 3: Increase the last (most recent) Aggregator object 
-            // sample with by the amounts in the DB rec.
+            // sample with by the amounts in the DB rec. -??-
             //obj. var.     method name.
-            ____________->__________(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE]));
+            curSample->__________(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE]));
         } catch(exception &e) {
             //Exception most likely caused stoi() trying to convert a non-numeric
             //  string into an integer
@@ -373,21 +376,22 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
     // record, reprsented by the variable f, then tell that Aggregagor to
     // update itself using f.
     for (int idx = 0; idx < aNames_.size(); ++idx) {
-        //Get aggregate name from aName_
+        //Get aggregate name from aName_ -done-
         string name = aNames[idx];
 
 
         /*
-            *                                  something is off in this part
-            *  if (country.compare(name) == 0) { (aFilter_[country]->agg->add(name) }
-            */
+        *  something is off in this part:
+        *  if (country.compare(name) == 0) { (aFilter_[country]->agg->add(name) }
+        */
         if (country.compare(name) == 0 || province.compare(name) == 0) {
             //mp Add to totals for countries and states configured as
             //   Aggregator objects.
             //                               key     value
             //                               name   Grp_spec*  calls Aggregator.add(f)
-            //use for inspiration: aFilter_[Terra]->agg->add(f);
-            ______________________________________________;
+            //use for inspiration: aFilter_[Terra]->agg->add(f); -not sure about this one-
+            aFilter_[country]->agg->add(name);
+            aFilter_[province]->agg->add(name);
         } //if we are aggregating stats for that country or state
     } //for all Aggretator objects
 
@@ -415,13 +419,13 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         //mp HW 3: Add totals to Bay Area region
         // We are adding totals -- for an Aggregator representing
         //  the Bay area
-        // Use this for inspiration: aFilter_[Terra]->agg->add(f);
-        _________________________________________________________;
+        // Use this for inspiration: aFilter_[Terra]->agg->add(f); -not too sure about this one either-
+        aFilter_[county]->agg->add(f);
 
         //mp  HW 3: Set the Grp_spec pointer for the county
         // It's a Bay Area county, so we meed a pointer to the Grouping
         //  object that represents that county.
-        //  It's the value in bFilter_ associated with the key county
+        //  It's the value in bFilter_ associated with the key county -done-
         //
         gs = bFilter_[county] ;
     } //if it's a Bay Area county
@@ -447,10 +451,10 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
 
     //mp HW : the f[LAST_UPDATE] time stamp field looks like this;
     //  2020-04-25 06:30:53
-    // The next two lines set dateStr to the YYYY-MM-DD portion 
+    // The next two lines set dateStr to the YYYY-MM-DD portion -I think I got this-
     //
-    int blankPos = f[LAST_UPDATE].________________________________;
-    string dateStr = f[LAST_UPDATE].______________________________;
+    int blankPos = f[LAST_UPDATE].find(BLANK,0)
+    string dateStr = f[LAST_UPDATE].substr(0,blankPos);
   
     time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
     if (timeStamp == DB_ERROR) {
@@ -469,8 +473,8 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         profile(f);
     } //catch
 
-    //mp HW 3: add DB rec totals to Grouping
-    gs->grp->_____________________________________;
+    //mp HW 3: add DB rec totals to Grouping -I believe this is right-
+    gs->grp->add(f);
     return true;
 } //update()
 
