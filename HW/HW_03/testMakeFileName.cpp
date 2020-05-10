@@ -60,7 +60,7 @@ void nextDay(int &m, int &d, int &y) {
         } //else
     } //switch
     
-} //nextDay
+} //nextDay()
 
 string makeNextFileName() {
     static int mm = -1;
@@ -188,8 +188,7 @@ string makeNextFileName() {
         char cStrBuffer[100];
 
         //Create a file with the format MM-DD-YYYYY.csv
-        sprintf(cStrBuffer,"%02d-%02d-%04d.csv",
-                            mm,  dd,  yy);
+        sprintf(cStrBuffer,"%02d-%02d-%04d.csv", mm,  dd,  yy);
         
         csvFileName = cStrBuffer;
         ++curDay;
@@ -198,7 +197,7 @@ string makeNextFileName() {
         return csvFileName;
     } 
     
-} //makeNextFileName;
+} //makeNextFileName()
 
 int main () {
     //prompted for start date and length of analysis interval
