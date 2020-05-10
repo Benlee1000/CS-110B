@@ -56,53 +56,69 @@ string makeNextFileName() {
     if (mm == -1) {
         //in your program you will prompt the user for values
         //  but for now we will set test values
-        string response;
+        string response, dateStr, mmStr, ddStr, yyStr;
+        int delimPos;
 
         while (true) {
-            cout << "Enter the year: ";
-            getline(cin,response);
-            try { yy = stoi(response); }
-            catch (exception &e) {
-                cout << "\"" << response << "\" is non-numric" << endl;
-                continue;
-            }
-            if (yy < 1 || yy > 9999){
-                cout << "the year \"" << response << "\" is out of range" << endl;
-                continue;
-            }
-            break;
-        } // yy
+            bool validationFail = false, valid_day = false;
 
-        while (true) {
-            cout << "Enter the month: ";
+            cout << "Enter the starting date (MM/DD/YYYY): ";
             getline(cin,response);
-            try { mm = stoi(response); }
-            catch (exception &e) {
-                cout << "\"" << response << "\" is non-numric" << endl;
-                continue;
-            }
-            if (mm < 1 || mm > 12){
-                cout << "\"" << response << "\" is not a valid month" << endl;
-                continue;
-            }
-            break;
-        //if we have not validated the mm is a legal value --
-        //we don't want except valus < 1 or > 12
-        } // mm
+            dateStr = response;
 
-        while (true) {
-            bool valid_day = false;
-
-            cout << "Enter the day: ";
-            getline(cin,response);
-            try { dd = stoi(response); }
-            catch (exception &e) {
-                cout << "\"" << response << "\" is non-numric" << endl;
+            delimPos = dateStr.find(SLASH);
+            if (delimPos == string::npos) {
+                cout << "\"" << response << "\" is in an invalid format\n" << endl;
                 continue;
+            } // if
+            mmStr = dateStr.substr(0,delimPos); // month string
+
+            dateStr = dateStr.substr(delimPos+1,dateStr.length() - delimPos);
+            delimPos = dateStr.find(SLASH);
+            if (delimPos == string::npos) {
+                cout << "\"" << response << "\" is in an invalid format\n" << endl;
+                continue;
+            } // if
+            ddStr = dateStr.substr(0,delimPos); // day string
+            yyStr = dateStr.substr(delimPos+1,dateStr.length() - delimPos); // year string
+
+            try { mm = stoi(mmStr); }
+            catch (exception &e) {
+                cout << "\"" << mmStr << "\" is non-numric for month" << endl;
+                validationFail = true;
+            } // catch
+            try { dd = stoi(ddStr); }
+            catch (exception &e) {
+                cout << "\"" << ddStr << "\" is non-numric for day" << endl;
+                validationFail = true;
+            } // catch
+            try { yy = stoi(yyStr); }
+            catch (exception &e) {
+                cout << "\"" << yyStr << "\" is non- for year" << endl;
+                validationFail = true;
             } // catch
 
+            if (validationFail) { 
+                cout << endl;
+                continue; 
+            } // if: any stoi fail, lets all error messages display before restarting loop
+
+            if (yy < 1 || yy > 9999){
+                cout << "the year \"" << yyStr << "\" is out of range" << endl;
+                validationFail = true;                
+            } // if: check for positive year that is 4 digits or less
+            if (mm < 1 || mm > 12){
+                cout << "\"" << mmStr << "\" is not a valid month" << endl;
+                validationFail = true;
+            } // if: check for valid month
+
+            if (validationFail == true){
+                cout << endl;
+                continue;
+            } // if: any value out of range, let all error message display before restarting loop
+
             switch(mm) {
-                //30 day months are April, June, September, November
+                //30 day months are Apr, Jun, Sep, Nov
             case 4: case 6: case 9: case 11:
                 if ( dd < 31 && dd > 0) { valid_day = true; }
                 break;
@@ -111,17 +127,21 @@ string makeNextFileName() {
                 if ( dd < 32 && dd > 0) { valid_day = true; }
                 break;
             case 2:
-                // 28 day is valid
+                // 1-28 day is valid
                 if (dd < 29 && dd > 0 ) { valid_day = true; }
-                // 29 day is valid on leap year
+                // 29th is valid on leap year
                 else if (dd == 29 && (yy % 4 ==0 && (yy % 100 != 0 || yy % 400 == 0 ) )) { valid_day = true; }
+                // non-leap year 29th entry
+                else if (dd == 29){ cout << yyStr << " is not a leap year. ";}
             } //switch
 
             if (not valid_day){ 
-                cout << "\"" << response << "\" is not a valid day for the month" << endl;
-                continue; }
+                cout << "\"" << ddStr << "\" is not a valid day for the month" << endl;
+                continue;
+            } // if: display error message before restarting loop
+            
             break;
-        } // dd
+        } // while: Date
 
         while (true) {
             cout << "Enter the number of days: ";
@@ -130,9 +150,13 @@ string makeNextFileName() {
             catch (exception &e) {
                 cout << "\"" << response << "\" is non-numric" << endl;
                 continue;
+            } // catch
+            if (numDays < 1){
+                cout << "\"" << numDays <<"\" is not a positive number" << endl;
+                continue;
             }
             break;
-        } // mm
+        } // while: number of days
 
         curDay = 0;
         return NULL_STRING;
