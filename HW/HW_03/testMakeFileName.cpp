@@ -1,22 +1,39 @@
+/************************************************************************** 
+**************************    Honor Code Affirmation **********************
+**   We, Benjamin Lee and Leighton Yan, have not given or received 
+**   inappropriate help with this assignment. 
+** 
+*************************************************************************** 
+**********************************    Design    *************************** 
+** 1.  If first call of makeNextFileName start while loop, prompt user for starting date
+** 2.  Make copy of the user input to slice into substring for month, day, and year
+** 3.  If delimiter not found, display format error and restart loop
+** 4.  Try to stoi the three substrings, display error if caught and restart loop
+** 5.  Check for valid year and month with if statements, restart loop if invalid
+** 6.  Check for valid day depending on month and leap year, restart loop if invalid
+** 7.  Break out of loop if entry pass all validation
+** 8.  Within while loop, prompt user for number of days to make
+** 9.  Try stoi the user input, restart loop if invalid
+** 10. Check for positive number, restart loop if not
+** 11. Set curDay to 0 and return NULL_String for initial run
+
+** 12. Else subsequent run, compare curDay to numDays, return NULL_STRING if equal
+** 13. use sprintf to store formated string with month, day, year into cStrBuffer
+** 14. store cStrBuffer as csvFileName to convert to string
+** 15. Increment curDay and call nextDay with mm, dd, yy to change to next day values
+** 16. Return the csvFileName
+**************************************************************************/  
+
 #include "pandemicTracker.hpp"
 
 void nextDay(int &m, int &d, int &y) {
-    switch(m) {
+    switch(m) {      
+    case 4: case 6: case 9: case 11:
         //30 day months are April, June, September, November
-    case 4:
-    case 6:
-    case 9:
-    case 11:
         if ( d < 30) { d++; return; }
         else { d = 1; m++; return; }
         break;
-    case 1:
-    case 3:
-    case 5:
-    case 7:
-    case 8:
-    case 10:
-    case 12:
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
         //31 days months Jan, Mar, May, Jul, Aug, Oct, Dec
         if ( d < 31) { d++; return; }
         else if (m < 12)  { d = 1; m++; return; }
@@ -199,3 +216,35 @@ int main () {
     cout << "End of test suite" << endl;
 
 }
+
+/************************************************************************** 
+************************   Test Report   ********************************** 
+** Worked as designed, as shown by a transcript of program execution:
+
+Enter the starting date (MM/DD/YYYY): 
+" " is in an invalid format
+
+Enter the starting date (MM/DD/YYYY): 1-2-3
+"1-2-3" is in an invalid format       
+
+Enter the starting date (MM/DD/YYYY): 2/30/2020
+"30" is not a valid day for the month 
+Enter the starting date (MM/DD/YYYY): 13/1/3
+"13" is not a valid month
+
+Enter the starting date (MM/DD/YYYY): 2/29/2019
+2019 is not a leap year. "29" is not a valid day for the month
+Enter the starting date (MM/DD/YYYY): 2/29/2020
+Enter the number of days: a
+"a" is non-numric
+Enter the number of days: -1
+"-1" is not a positive number
+Enter the number of days: 5
+02-29-2020.csv
+03-01-2020.csv
+03-02-2020.csv
+03-03-2020.csv
+03-04-2020.csv
+End of test suite
+
+**************************************************************************/ 
