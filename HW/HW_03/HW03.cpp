@@ -263,15 +263,6 @@ Grouping::toString() {
 
     string description = text; //Convert C to C++style string
     return description;
-} //toString() ?? not sure what this is for, could be a typo
-
-  
-  
-
-  
-
-  _______________________;
-  …;
 } //Grouping::toString() 
 
 
@@ -285,7 +276,7 @@ void Aggregator::add(vector<string> f) {
     if (this->getSampleSize() > 0) {
         //mp HW #3: set curSample to a pointer to the last (most recent) Sample
         // object in this->samples -done-
-        curSample = this->samples[this->samples.size() - 1;
+        curSample = this->samples[this->samples.size() - 1];
 
         //mp HW #3: get the date string from curSample -done-
         curDateStr = getDateStr();
@@ -294,8 +285,8 @@ void Aggregator::add(vector<string> f) {
     Sample *sample;
     // mp HW #3: Construct a boolean that is true if the Aggregator object
     // doesn't have any samples yet, OR the date in the DB rec is more recent 
-    // than the date of the last (and therefore most recent) sample. -not sure how to check this-
-  if ((f.size == 0) || (__________________________________)) {
+    // than the date of the last (and therefore most recent) sample. -not sure how to check this- -done l-
+    if ((samples.size == 0) || (curDateStr > newDateStr)) {
         time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
         if (timeStamp == DB_ERROR) {
             cout << "Aggregator::add()/new sample: invalid timestamp" << endl;
@@ -313,14 +304,12 @@ void Aggregator::add(vector<string> f) {
         //mp HW #3: add a new sample to Aggregtor object, which is also
         //  a Grouping object.  How does one call a base class method with
         //  the same name as a derived method? -I'm pretty sure this is done-
-        this->Grouping::add(sample_obj);
+        this->Grouping::add(sample);
     
     }   //if this is the first sample, or the date has changed, then
         // you need to create a new Sample object and append to the
-        // samples vector. -not exactly sure how to finish this, but this should be a start-
-        if(  || ) {
-            f.append(new Sample(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE]), timeStamp,newDateStr))
-        }
+        // samples vector.
+
     else if (newDateStr.compare(curDateStr) == 0) {
 
         try {
@@ -427,7 +416,7 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         //  object that represents that county.
         //  It's the value in bFilter_ associated with the key county -done-
         //
-        gs = bFilter_[county] ;
+        gs = bFilter_[county];
     } //if it's a Bay Area county
 
     else { return false; } //else we have no more interest in DB record
