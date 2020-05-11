@@ -1,11 +1,14 @@
 #include <time.h>
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <math.h>
 #include <ctype.h>
 #include <iomanip>
+#include <cstring>
+
 
 using namespace std;
 
@@ -23,7 +26,6 @@ const string COMMA = ",";
 const string DASH = "-";
 const string SLASH = "/";
 const string DOT = ".";
-const string QUOTE = "\"";
 const string NULL_STRING = "";
 const string NOT_APPLICABLE = "N/A";
 const string EST_POPULATION = " ";//NULL_STRING;//"≈Pop.: ";
@@ -84,23 +86,10 @@ TextTable
 // "Marin", or "US".  The values are a vector of stats
 // for intervevals, and each interval is a vector of
 // specific things people want to track in a pandemic.
-// An unordered_map is called a dictionary in Python, and
-// a Hashtable in Java, and is often called an associative array.
-// A normal array allows you to access an array item with an
-// an integer subscript.
-// An associative array allows you to access an array item with a
-// key, which could be an object not necessarily an integer.
- 
 
 typedef  unordered_map<string,TextLists > TextTable;
 class Grp_spec; //think of it as an object representing an entity, like "California"
 
-//unordered_map is a collection of key/value  pairs, some
-// specication of things we think belong together.
-// In this case, the keys are string object, which will contain
-// the names of georgraphic enties, such as "Marin" or "Italy.
-//  The values are points to Grp_spec object, which are the software
-//  constructs that will actually be accumulating the stats					   
 typedef unordered_map<string,Grp_spec *> Directory; 
 //ca = filter["California"]
 
@@ -125,12 +114,15 @@ const int DB_ERROR = 0;
 
 //Chooses which flavor of collection to use
 const int BA_IDX = 0;
-const int AGG_IDX = 1;
+const int OTH_IDX = 1;
+const int AGG_IDX = 2;
 
 
 //***   config definitions
 const string BA_COUNTY_CFG_FILE = "cfgBA.txt";
+const string OTHER_COUNTIES_CFG_FILE = "cfgOther.txt";
 const string AGGREGATES_CFG_FILE = "aggregatesCfg.txt";
+const string INTERVALS_CFG_FILE = "intervalsCfg.txt";
 
 //CSV field indices
 const int FIPS = 0;  //provived by JHU, for what?  
@@ -148,9 +140,6 @@ const int FULL_NAME = 11;
 const int LAST_FIELD = FULL_NAME;
 
 
-const string STATE_PFX = "STATE";
-const string COUNTRY_PFX = "COUNTRY";
-					  
 const string Terra = "Terra";
 const string US = "US";
 const string CA = "California";
@@ -223,7 +212,7 @@ protected:
   string country;
   float longtitude;
   float latitude;
-  long population;
+  long long population;
 
   //Keep one sample for every day in the analysis interval.
   vector<Sample> samples; 
@@ -238,16 +227,13 @@ protected:
 	    float longtitude, float latitude, int population);
   //2Dstring showDateTime() { return summary->showDateTime(); }
   void add(Sample sample) {this->samples.push_back(sample);}
-
+  string toString();
   int getSampleSize() { return this->samples.size();}
-  long getPopulation() { return this->population; }
-  void setPopulation(long p) {this->population = p; return;}
+  long long getPopulation() { return this->population; }
+  void setPopulation(long long p) {this->population = p; return;}
   Sample getSample(int idx) { return this->samples[idx]; };          
   float CompoundDailyGrowthRate(int first,int last, char category = 'C');
   void  clear() { this->samples.clear(); }
-
-  //mp define HW 3 part 3
-  string toString(); //return string representation of Grouping object
 };//class Grouping
 
 int Grouping::numGroupings = 0;  //initialize class variable
@@ -270,8 +256,6 @@ public:
   //Create a new sample if the date has changed, or just
   // upate the latest on if it hasn't.
   void add(vector<string> f);
-  //mp define HW 3 part 3
-  string toString(); //return string representation of Aggregator object
   
 
 };//class Aggregator
@@ -285,11 +269,8 @@ class CSV {
 public:
   CSV (string fn) {
     this->csv_file.open(fn);
-    this->curLine = NULL_STRING;
-    //this->curFields.clear();
   };//Constructor
 
-  void close () { this->csv_file.close(); }
   bool file_exists() { return !csv_file.fail(); }
   
   static time_t parseDateTime(string dateTime);
@@ -354,31 +335,23 @@ public:
 }; //class CSV
 
 
-//Grp_spec provides way to have the value in a directory be either a
-//  Grouping or an Aggregate object.
+
 struct Grp_spec{
-  long population;  //redundant info, don't be confused
-  //one of these two fields that follow will set, but not both
-  Grouping *grp; 
+  long long population;
+  Grouping *grp;
   Aggregator *agg;
-  long getPopulation() { return this->population; }
+  long long getPopulation() { return this->population; }
 
   Aggregator *getAgg() { return this->agg;} 
   Grouping * asGrp () { Grouping *g = this-> agg != NULL ?
       (Grouping *) agg : this -> grp; return g;  }
-
-  Grp_spec ()
-    { this->population = 0; this->grp = NULL;this->agg = NULL;}
-
-  Grp_spec (long p, Aggregator *agg)
+  Grp_spec (long long p, Aggregator *agg)
   { this->population = p; this->grp = NULL;this->agg = agg;}
-
-  Grp_spec (long p) //consructor for Groupings
+  Grp_spec (long p)
   { this->population = p; this->grp = NULL;this->agg = NULL;}
-
   Grp_spec (const Grp_spec& old) {
     population = old.population;
     grp = old.grp;
     agg = old.agg;
-  } //copy constructor
+  }
 };//Grp_spec
