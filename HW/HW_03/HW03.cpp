@@ -232,6 +232,9 @@ void CSV::makeFields(string text, string fieldDelim, vector<string> *fields) {
 
 //mp HW 3: part 3: supply a body for toString that returns the specified
 // information in a string
+/* The only that Aggregator::toString() needs to do on top what gets back 
+ * from Grouping::toString() is possibly to change or supply a name. 
+ */
 Aggregagtor::toString() {
 
     //mp How would we get the Aggregator name?
@@ -239,29 +242,71 @@ Aggregagtor::toString() {
     //And possibly make some adjustments to the name
     //I'll send out email tonight explaining how to call a base class
     //method with the same name as a method in the derived class.
-    _______________________;
+    
+
+    // (Grouping *this)->toString() -another way of doing it using a cast
+    // Get everything about the counts and the dates
+    string description = this->Grouping::toString();
+
+    //if (this->region != NULL_STRING) {change description to use this->region as the name}
+    //if (description is nameless) {use this->planet as the name}
+
+    //This is the point where we supply the Name if needed, That is, if this is eiether of our two
+    //special Aggregator objects, the one that represents Terra, and the one
+    //that represents the Bay Area.
+
+    //Possibly the start of the string the Grouping toString() method returns could look
+    // like what is shown below, where "text" could be NULL_STRING. In that call, we
+    // could pull out the name in the same way we pull out the MM DD YYYY parts of a 
+    // date string: with .find and .substr string methods.
+
+    //Name: text;
+
+    return description;
 
 } //Aggregator::toString() 
 
 
 //mp HW 3: part 3: supply a body for toString that returns the specified
 // information in a string 
-Grouping::toString() {
+string Grouping::toString() {
+    string description;
     char text[4000];  //create C-string buffer for sprintf()
     char text2[4000];  //Create another C-string buffer
 
-    sprintf(text," … ", …, …);
-    strcpy(text2,text); //copies text into text2
+    string naem = NULL_STRING;
+    if (this->county != NULL_STRING) {name = this->county;}
+    else if (this->province != NULL_STRING) {name = this->province;}
+    else if (this->country != NULL_STRING) {name = this->country;}
 
-    //Use the string you constucted before, which is now
-    // in text2, as the basis a new version text that
-    // will contain more stuff
-    sprintf(text,"%s  …",text2, …, …);
-    strcpy(text2,text); //copy the enhaned version of text into text2.
+    if (this->getSampleSize() == 0) {
+        return "Name: " + name + " No data collected.";
+    }
+    else  {
+        //create a description of the first sample
+        Sample firstSample = this->samples[0];
+        float firstInfectionRate = firstSample.getC()/this->population;
+        string firstDateStr = firstSample.getDayStr();
 
-    sprintf(text,"%s  …",text2, …, …);
+        sprintf(text,"Name: %s; Date: %s; Infection Rate: %f; Cases: %d; Deceased: %d\n", name.c_str(), firstDateStr, firstInfectionRate, firstSample.getC(), firstSample.getD());
+        description = text;
 
-    string description = text; //Convert C to C++style string
+    }
+    if (this->samples.size() == 1) {return description;}
+
+    else {
+        //create a description of the last sample and append it.
+        strcpy(text2,text); //strcpy works right-to-left
+
+        Sample lastSample = this->samples[this->samples.size()-1];
+        float lastInfectionRate = lastSample.getC()/this->population;
+        string lastDateStr = lastSample.getDayStr();
+
+        sprintf(text,"%s\n; Date: %s; Infection Rate: %f; Cases: %d; Deceased: %d\n", text2, lastDateStr, lastInfectionRate, lastSample.getC(), lastSample.getD());
+        description = text;
+        
+    }
+    
     return description;
 } //Grouping::toString() 
 
@@ -285,7 +330,7 @@ void Aggregator::add(vector<string> f) {
     Sample *sample;
     // mp HW #3: Construct a boolean that is true if the Aggregator object
     // doesn't have any samples yet, OR the date in the DB rec is more recent 
-    // than the date of the last (and therefore most recent) sample. -not sure how to check this- -done l-
+    // than the date of the last (and therefore most recent) sample.  -done l-
     if ((samples.size == 0) || (curDateStr > newDateStr)) { //-done l-
         time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
         if (timeStamp == DB_ERROR) {
@@ -368,7 +413,12 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         //Get aggregate name from aName_ -done-
         string name = aNames[idx]; //-done-
 
+        //This is how we might use a simple version of toString() in our development process
+        if (name == CANADA) {
 
+           cout << "Trace: " << aFilter_[name]->agg->toString() << endl;
+        }
+        
         /*
         *  something is off in this part:
         *  if (country.compare(name) == 0) { (aFilter_[country]->agg->add(name) }
