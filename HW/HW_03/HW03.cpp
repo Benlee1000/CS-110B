@@ -232,7 +232,7 @@ void CSV::makeFields(string text, string fieldDelim, vector<string> *fields) {
 
 //mp HW 3: part 3: supply a body for toString that returns the specified
 // information in a string
-Aggregator::toString() {
+Aggregagtor::toString() {
 
     //mp How would we get the Aggregator name?
     //Aggregator::toString() will need to call Grouping::toString()
