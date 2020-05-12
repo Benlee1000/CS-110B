@@ -67,7 +67,6 @@ void profile(vector<string> f) {
 } //profile
 
 
-
 //Handle situations where the country name is in quotes with an
 // embedded comma, such as "Korea, South"
 void CSV::repair() {
@@ -232,24 +231,28 @@ void CSV::makeFields(string text, string fieldDelim, vector<string> *fields) {
 
 //mp HW 3: part 3: supply a body for toString that returns the specified
 // information in a string
-/* The only that Aggregator::toString() needs to do on top what gets back 
- * from Grouping::toString() is possibly to change or supply a name. 
- */
-Aggregagtor::toString() {
+
+// The only that Aggregator::toString() needs to do on top what gets back 
+// from Grouping::toString() is possibly to change or supply a name. 
+
+string Aggregator::toString() {
 
     //mp How would we get the Aggregator name?
+
     //Aggregator::toString() will need to call Grouping::toString()
     //And possibly make some adjustments to the name
     //I'll send out email tonight explaining how to call a base class
     //method with the same name as a method in the derived class.
-    
-
-    // (Grouping *this)->toString() -another way of doing it using a cast
-    // Get everything about the counts and the dates
-    string description = this->Grouping::toString();
 
     //if (this->region != NULL_STRING) {change description to use this->region as the name}
     //if (description is nameless) {use this->planet as the name}
+    
+    //Name: text;
+    // Get everything about the counts and the dates
+    // We're casting a Aggregator pointer to a Grouping pointer
+    // (Grouping *this)->toString(); -another way of doing it using a cast
+    
+    string description = this->Grouping::toString();
 
     //This is the point where we supply the Name if needed, That is, if this is eiether of our two
     //special Aggregator objects, the one that represents Terra, and the one
@@ -259,8 +262,6 @@ Aggregagtor::toString() {
     // like what is shown below, where "text" could be NULL_STRING. In that call, we
     // could pull out the name in the same way we pull out the MM DD YYYY parts of a 
     // date string: with .find and .substr string methods.
-
-    //Name: text;
 
     return description;
 
@@ -274,7 +275,8 @@ string Grouping::toString() {
     char text[4000];  //create C-string buffer for sprintf()
     char text2[4000];  //Create another C-string buffer
 
-    string naem = NULL_STRING;
+    Sample firstSample;
+    string name = NULL_STRING;
     if (this->county != NULL_STRING) {name = this->county;}
     else if (this->province != NULL_STRING) {name = this->province;}
     else if (this->country != NULL_STRING) {name = this->country;}
@@ -284,7 +286,7 @@ string Grouping::toString() {
     }
     else  {
         //create a description of the first sample
-        Sample firstSample = this->samples[0];
+        firstSample = this->samples[0];
         float firstInfectionRate = firstSample.getC()/this->population;
         string firstDateStr = firstSample.getDayStr();
 
@@ -300,13 +302,18 @@ string Grouping::toString() {
 
         Sample lastSample = this->samples[this->samples.size()-1];
         float lastInfectionRate = lastSample.getC()/this->population;
-        string lastDateStr = lastSample.getDayStr();
-
-        sprintf(text,"%s\n; Date: %s; Infection Rate: %f; Cases: %d; Deceased: %d\n", text2, lastDateStr, lastInfectionRate, lastSample.getC(), lastSample.getD());
-        description = text;
-        
-    }
+        string lastDateStr = lastSample.getDateStr();
     
+        sprintf(text,"%s\n Date: %s; infection rate: %f; cases: %d; deceased: %d\n", text2,lastDateStr, lastInfectionRate, lastSample.getC(),lastSample.getD());
+        description = text;
+        float caseGrowthRate = this->CompoundDailyGrowthRate(0,this.samples.size()-1,'C');
+        float decGrowthRate = this->CompoundDailyGrowthRate(0,this.samples.size()-1,'D');
+        float cDbLtime = log10(2)/(log10(1 + (caseGrowthRate/100)) );
+        float dDbLtime = log10(2)/(log10(1 + (decGrowthRate/100)) );
+        //format these four floats as the possible 3rd line returned
+        //from Grouping::toString()
+
+    }
     return description;
 } //Grouping::toString() 
 
@@ -331,6 +338,17 @@ void Aggregator::add(vector<string> f) {
     // mp HW #3: Construct a boolean that is true if the Aggregator object
     // doesn't have any samples yet, OR the date in the DB rec is more recent 
     // than the date of the last (and therefore most recent) sample.  -done l-
+
+    // How could we tell if the date in the DB rec is more recent?
+    //   You could compare dates by comparing strings. That is, if
+    //   date string 1 comes before date string 2 when you compare them using
+    //   alphabetic (Unicode) order, then the date represented by date string 1 is
+    //   less recent than the one represented by date string 2.
+    //   The date strings we're comparing are  newDateStr, which we got from
+    //   the DB rec, and  curDateStr, which we got from the most recent sample
+    //   the Aggregator object has collected, assuming it's collected any.
+    //   Finally, the C++ string method .compare() compares deciding in terms
+    //   of alphabetic order.
     if ((samples.size == 0) || (curDateStr > newDateStr)) { //-done l-
         time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
         if (timeStamp == DB_ERROR) {
