@@ -45,7 +45,7 @@ void trace (string s,bool b = false) {
 #endif
 }
 
-void trace (string s,long l, bool b = false) {
+void trace (string s, long l, bool b = false) {
 #ifdef TRACE
   if (b) {
     cout << s << l << endl;
@@ -225,7 +225,7 @@ protected:
   string country;
   float longtitude;
   float latitude;
-  long population;
+  long long population;
 
   //Keep one sample for every day in the analysis interval.
   vector<Sample> samples; 
@@ -242,8 +242,8 @@ protected:
   void add(Sample sample) {this->samples.push_back(sample);}
 
   int getSampleSize() { return this->samples.size();}
-  long getPopulation() { return this->population; }
-  void setPopulation(long p) {this->population = p; return;}
+  long long getPopulation() { return this->population; }
+  void setPopulation(long long p) {this->population = p; return;}
   Sample getSample(int idx) { return this->samples[idx]; };          
   float CompoundDailyGrowthRate(int first,int last, char category = 'C');
   void  clear() { this->samples.clear(); }
@@ -352,18 +352,18 @@ public:
   
   //return a string representation of an int with commas every
   // three places  
-  static string cfy (long n);  //display numbers with commas
+  static string cfy (long long n);  //display numbers with commas
 }; //class CSV
 
 
 //Grp_spec provides way to have the value in a directory be either a
 //  Grouping or an Aggregate object.
 struct Grp_spec{
-  long population;  //redundant info, don't be confused
+  long long population;  //redundant info, don't be confused
   //one of these two fields that follow will set, but not both
   Grouping *grp; 
   Aggregator *agg;
-  long getPopulation() { return this->population; }
+  long long getPopulation() { return this->population; }
 
   Aggregator *getAgg() { return this->agg;} 
   Grouping * asGrp () { Grouping *g = this-> agg != NULL ?
@@ -372,10 +372,10 @@ struct Grp_spec{
   Grp_spec ()
     { this->population = 0; this->grp = NULL;this->agg = NULL;}
 
-  Grp_spec (long p, Aggregator *agg)
+  Grp_spec (long long p, Aggregator *agg)
   { this->population = p; this->grp = NULL;this->agg = agg;}
 
-  Grp_spec (long p) //consructor for Groupings
+  Grp_spec (long long p) //consructor for Groupings
   { this->population = p; this->grp = NULL;this->agg = NULL;}
 
   Grp_spec (const Grp_spec& old) {
