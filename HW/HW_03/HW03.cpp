@@ -339,7 +339,7 @@ cout << "Grp to string was called" << endl;
         //format these four floats as the possible 3rd line returned
         //from Grouping::toString()
         strcpy(text2,text);
-        sprintf(text, "%s\nRate of Growth for Cases: %.2f%% \nRate of Growth for Deceased: %.2f%% \nDoubling time for Cases: %f \nDoubling time for Deceased: %f\n", text2,caseGrowthRate,decGrowthRate,cDbLtime,dDbLtime);
+        sprintf(text, "%s\nCases Avg Increase: \t\t%.2f%% \nDeceased Avg Increase: \t\t%.2f%% \nCases Days to Double: \t\t%.2f \nDeceased Days to Double: \t%.2f\n", text2,caseGrowthRate,decGrowthRate,cDbLtime,dDbLtime);
 
         description = text;
     }
