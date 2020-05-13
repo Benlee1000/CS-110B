@@ -930,8 +930,8 @@ int main( ) {
 ************************   Test Report   ********************************** 
 ** Worked as designed, as shown by a transcript of program execution:
 
-Enter the starting date (MM/DD/YYYY): 5/1/2020
-Enter the number of days: 2        
+Enter the starting date (MM/DD/YYYY): 05/01/2020
+Enter the number of days: 2
 
 Groupings: 12
 Samples: 34
@@ -940,155 +940,155 @@ Name: Terra          | Start Date: 2020-05-02 | Infection Rate:  0.044% | Cases:
 
                      | End Date:   2020-05-03 | Infection rate:  0.046% | Cases:   3427343 | Deceased:    243808
 
-Cases Avg Increase:              2.499%
-Cases Days to Double:            28.080
-Deceased Avg Increase:           2.161%
+Cases Avg Increase:              2.499% 
+Cases Days to Double:            28.080 
+Deceased Avg Increase:           2.161% 
 Deceased Days to Double:         32.416
 
 Name: Canada         | Start Date: 2020-05-02 | Infection Rate:  0.150% | Cases:     56343 | Deceased:      3537
 
                      | End Date:   2020-05-03 | Infection rate:  0.154% | Cases:     57926 | Deceased:      3684
 
-Cases Avg Increase:              2.810%
-Cases Days to Double:            25.016
-Deceased Avg Increase:           4.156%
+Cases Avg Increase:              2.810% 
+Cases Days to Double:            25.016 
+Deceased Avg Increase:           4.156% 
 Deceased Days to Double:         17.022
 
 Name: US             | Start Date: 2020-05-02 | Infection Rate:  0.337% | Cases:   1103461 | Deceased:     64943
 
                      | End Date:   2020-05-03 | Infection rate:  0.346% | Cases:   1132539 | Deceased:     66369
 
-Cases Avg Increase:              2.635%
-Cases Days to Double:            26.649
-Deceased Avg Increase:           2.196%
+Cases Avg Increase:              2.635% 
+Cases Days to Double:            26.649 
+Deceased Avg Increase:           2.196% 
 Deceased Days to Double:         31.913
 
 Name: California     | Start Date: 2020-05-02 | Infection Rate:  0.132% | Cases:     52026 | Deceased:      2126
 
                      | End Date:   2020-05-03 | Infection rate:  0.135% | Cases:     53347 | Deceased:      2180
 
-Cases Avg Increase:              2.539%
-Cases Days to Double:            27.644
-Deceased Avg Increase:           2.540%
+Cases Avg Increase:              2.539% 
+Cases Days to Double:            27.644 
+Deceased Avg Increase:           2.540% 
 Deceased Days to Double:         27.635
 
 Name: Bay Area       | Start Date: 2020-05-02 | Infection Rate:  0.098% | Cases:     10284 | Deceased:       384
 
                      | End Date:   2020-05-03 | Infection rate:  0.100% | Cases:     10491 | Deceased:       387
 
-Cases Avg Increase:              2.013%
-Cases Days to Double:            34.782
-Deceased Avg Increase:           0.781%
+Cases Avg Increase:              2.013% 
+Cases Days to Double:            34.782 
+Deceased Avg Increase:           0.781% 
 Deceased Days to Double:         89.069
 
 Name: Alameda        | Start Date: 2020-05-02 | Infection Rate:  0.098% | Cases:      1636 | Deceased:        62
 
                      | End Date:   2020-05-03 | Infection rate:  0.103% | Cases:      1706 | Deceased:        63
 
-Cases Avg Increase:              4.279%
-Cases Days to Double:            16.544
-Deceased Avg Increase:           1.613%
+Cases Avg Increase:              4.279% 
+Cases Days to Double:            16.544 
+Deceased Avg Increase:           1.613% 
 Deceased Days to Double:         43.321
 
 Name: Contra Costa   | Start Date: 2020-05-02 | Infection Rate:  0.079% | Cases:       907 | Deceased:        28
 
                      | End Date:   2020-05-03 | Infection rate:  0.081% | Cases:       934 | Deceased:        28
 
-Cases Avg Increase:              2.977%
-Cases Days to Double:            23.629
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              2.977% 
+Cases Days to Double:            23.629 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Marin          | Start Date: 2020-05-02 | Infection Rate:  0.091% | Cases:       237 | Deceased:        13
 
                      | End Date:   2020-05-03 | Infection rate:  0.092% | Cases:       239 | Deceased:        13
 
-Cases Avg Increase:              0.844%
-Cases Days to Double:            82.484
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              0.844% 
+Cases Days to Double:            82.484 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Napa           | Start Date: 2020-05-02 | Infection Rate:  0.048% | Cases:        68 | Deceased:         2
 
                      | End Date:   2020-05-03 | Infection rate:  0.050% | Cases:        70 | Deceased:         2
 
-Cases Avg Increase:              2.941%
-Cases Days to Double:            23.912
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              2.941% 
+Cases Days to Double:            23.912 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Sacramento     | Start Date: 2020-05-02 | Infection Rate:  0.071% | Cases:      1090 | Deceased:        42
 
                      | End Date:   2020-05-03 | Infection rate:  0.072% | Cases:      1107 | Deceased:        42
 
-Cases Avg Increase:              1.560%
-Cases Days to Double:            44.788
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              1.560% 
+Cases Days to Double:            44.788 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: San Francisco  | Start Date: 2020-05-02 | Infection Rate:  0.172% | Cases:      1523 | Deceased:        28
 
                      | End Date:   2020-05-03 | Infection rate:  0.174% | Cases:      1543 | Deceased:        29
 
-Cases Avg Increase:              1.313%
-Cases Days to Double:            53.129
-Deceased Avg Increase:           3.571%
+Cases Avg Increase:              1.313% 
+Cases Days to Double:            53.129 
+Deceased Avg Increase:           3.571% 
 Deceased Days to Double:         19.753
 
 Name: San Joaquin    | Start Date: 2020-05-02 | Infection Rate:  0.075% | Cases:       557 | Deceased:        25
 
                      | End Date:   2020-05-03 | Infection rate:  0.075% | Cases:       560 | Deceased:        25
 
-Cases Avg Increase:              0.539%
-Cases Days to Double:            129.041
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              0.539% 
+Cases Days to Double:            129.041 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: San Mateo      | Start Date: 2020-05-02 | Infection Rate:  0.164% | Cases:      1197 | Deceased:        51
 
                      | End Date:   2020-05-03 | Infection rate:  0.169% | Cases:      1233 | Deceased:        51
 
-Cases Avg Increase:              3.008%
-Cases Days to Double:            23.392
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              3.008% 
+Cases Days to Double:            23.392 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Santa Clara    | Start Date: 2020-05-02 | Infection Rate:  0.112% | Cases:      2179 | Deceased:       113
 
                      | End Date:   2020-05-03 | Infection rate:  0.114% | Cases:      2205 | Deceased:       114
 
-Cases Avg Increase:              1.193%
-Cases Days to Double:            58.437
-Deceased Avg Increase:           0.885%
+Cases Avg Increase:              1.193% 
+Cases Days to Double:            58.437 
+Deceased Avg Increase:           0.885% 
 Deceased Days to Double:         78.672
 
 Name: Solano         | Start Date: 2020-05-02 | Infection Rate:  0.060% | Cases:       266 | Deceased:         5
 
                      | End Date:   2020-05-03 | Infection rate:  0.060% | Cases:       266 | Deceased:         5
 
-Cases Avg Increase:              0.000%
-Cases Days to Double:            inf
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              0.000% 
+Cases Days to Double:            inf 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Sonoma         | Start Date: 2020-05-02 | Infection Rate:  0.048% | Cases:       244 | Deceased:         2
 
                      | End Date:   2020-05-03 | Infection rate:  0.049% | Cases:       248 | Deceased:         2
 
-Cases Avg Increase:              1.639%
-Cases Days to Double:            42.628
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              1.639% 
+Cases Days to Double:            42.628 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
 Name: Stanislaus     | Start Date: 2020-05-02 | Infection Rate:  0.069% | Cases:       380 | Deceased:        13
 
                      | End Date:   2020-05-03 | Infection rate:  0.069% | Cases:       380 | Deceased:        13
 
-Cases Avg Increase:              0.000%
-Cases Days to Double:            inf
-Deceased Avg Increase:           0.000%
+Cases Avg Increase:              0.000% 
+Cases Days to Double:            inf 
+Deceased Avg Increase:           0.000% 
 Deceased Days to Double:         inf
 
-Goodbye for now.
+Goodbye for now.        
 
 **************************************************************************/ 
