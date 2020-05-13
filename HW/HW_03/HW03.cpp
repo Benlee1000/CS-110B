@@ -1,5 +1,6 @@
 #include "pandemicTracker.hpp"
 
+#define DBG
 
 time_t CSV::parseDateTime(string dateTime) {
     //DB timestamp look like thisP: 3/22/20 23:45
@@ -305,8 +306,8 @@ string Grouping::toString() {
     
         sprintf(text,"%s\n Date: %s; infection rate: %f; cases: %d; deceased: %d\n", text2,lastDateStr.c_str(), lastInfectionRate, lastSample.getC(),lastSample.getD());
         description = text;
-        float caseGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'C');
-        float decGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'D');
+        float caseGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'C'); // replaced this. with this->
+        float decGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'D'); // same as above
         float cDbLtime = log10(2)/(log10(1 + (caseGrowthRate/100)) );
         float dDbLtime = log10(2)/(log10(1 + (decGrowthRate/100)) );
         //format these four floats as the possible 3rd line returned
@@ -327,10 +328,10 @@ void Aggregator::add(vector<string> f) {
     if (this->getSampleSize() > 0) {
         //mp HW #3: set curSample to a pointer to the last (most recent) Sample
         // object in this->samples -done-
-        curSample = &this->samples[samples.size() - 1]; //-done-
+        curSample = &this->samples[samples.size() - 1]; //-done- -Needed to be address, added & L-
 
         //mp HW #3: get the date string from curSample -done-
-        curDateStr = curSample->getDateStr(); //-done-
+        curDateStr = curSample->getDateStr(); //-done- -needed same to getDateStr, added curSample-> L-
     } //if aggregator has at least one sample  
 
     Sample *sample;
@@ -348,7 +349,7 @@ void Aggregator::add(vector<string> f) {
     //   the Aggregator object has collected, assuming it's collected any.
     //   Finally, the C++ string method .compare() compares deciding in terms
     //   of alphabetic order.
-    if ((samples.size() == 0) || (curDateStr < newDateStr)) { //-done l-
+    if ((samples.size() == 0) || (curDateStr < newDateStr)) { //-done L-
         time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
         if (timeStamp == DB_ERROR) {
             cout << "Aggregator::add()/new sample: invalid timestamp" << endl;
@@ -366,7 +367,8 @@ void Aggregator::add(vector<string> f) {
         //mp HW #3: add a new sample to Aggregtor object, which is also
         //  a Grouping object.  How does one call a base class method with
         //  the same name as a derived method? -I'm pretty sure this is done-
-        this->Grouping::add(*sample); //-I'm pretty sure this is done-
+        this->Grouping::add(*sample); //-I'm pretty sure this is done- -arguement needed to be sample, derefernced sample pointer L-
+
     }   //if this is the first sample, or the date has changed, then
         // you need to create a new Sample object and append to the
         // samples vector.
@@ -377,7 +379,7 @@ void Aggregator::add(vector<string> f) {
             //mp HW 3: Increase the last (most recent) Aggregator object 
             // sample with by the amounts in the DB rec. -??-
             //obj. var.     method name.
-            curSample->update(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE])); //-??-
+            curSample->update(stoi(f[CONFIRMED]),stoi(f[DECEASED]), stoi(f[RECOVERED]), stoi(f[ACTIVE])); //-??- -curSample->update done L-
         } catch(exception &e) {
             //Exception most likely caused stoi() trying to convert a non-numeric
             //  string into an integer
@@ -427,13 +429,14 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
     // update itself using f.
     for (int idx = 0; idx < aNames_.size(); ++idx) {
         //Get aggregate name from aName_ -done-
-        string name = aNames_[idx]; //-done-
+        string name = aNames_[idx]; //-done- -was missing _ L-
         //This is how we might use a simple version of toString() in our development process
+#ifdef DBG
         if (name == CAN) {
 
            cout << "Trace: " << aFilter_[name]->agg->toString() << endl;
         }
-        
+#endif
         /*
         *  something is off in this part:
         *  if (country.compare(name) == 0) { (aFilter_[country]->agg->add(name) }
@@ -444,7 +447,7 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
             //                               key     value
             //                               name   Grp_spec*  calls Aggregator.add(f)
             //use for inspiration: aFilter_[Terra]->agg->add(f); -not sure about this one-
-            aFilter_[name]->agg->add(f); //-not sure about this one-
+            aFilter_[name]->agg->add(f); //-not sure about this one- -key is name, add(f) done L-
         } //if we are aggregating stats for that country or state
     } //for all Aggretator objects
 
@@ -473,7 +476,7 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         // We are adding totals -- for an Aggregator representing
         //  the Bay area
         // Use this for inspiration: aFilter_[Terra]->agg->add(f); -not too sure about this one either-
-        aFilter_[BA]->agg->add(f); //-not too sure about this one either-
+        aFilter_[BA]->agg->add(f); //-not too sure about this one either- -changed key to BA for bay area done L-
 
         //mp  HW 3: Set the Grp_spec pointer for the county
         // It's a Bay Area county, so we meed a pointer to the Grouping
@@ -506,8 +509,8 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
     //  2020-04-25 06:30:53
     // The next two lines set dateStr to the YYYY-MM-DD portion -I think I got this-
     //
-    int blankPos = f[LAST_UPDATE].find(BLANK); //-I think I got this-
-    string dateStr = f[LAST_UPDATE].substr(0,blankPos); //-I think I got this-
+    int blankPos = f[LAST_UPDATE].find(BLANK); //-I think I got this- -yes you did, didn't need a 0 though done L-
+    string dateStr = f[LAST_UPDATE].substr(0,blankPos); //-I think I got this- -yes you did done L-
   
     time_t timeStamp = CSV::parseDateTime(f[LAST_UPDATE]);
     if (timeStamp == DB_ERROR) {
@@ -527,7 +530,7 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
     } //catch
 
     //mp HW 3: add DB rec totals to Grouping -I believe this is right-
-    gs->grp->add(*sample); //-I believe this is right-
+    gs->grp->add(*sample); //-I believe this is right- -add sample, dereferenced the pointer done L-
     return true;
 } //update()
 
