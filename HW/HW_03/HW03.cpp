@@ -12,7 +12,7 @@
 
 #include "pandemicTracker.hpp"
 
-#define DBG
+// #define DBG
 
 time_t CSV::parseDateTime(string dateTime) {
     //DB timestamp look like thisP: 3/22/20 23:45
@@ -249,7 +249,8 @@ void CSV::makeFields(string text, string fieldDelim, vector<string> *fields) {
 // from Grouping::toString() is possibly to change or supply a name. 
 
 string Aggregator::toString() {
-    int delimPos;
+    int delimPos1, delimPos2;
+    char text[4000];
     //mp How would we get the Aggregator name?
 
     //Aggregator::toString() will need to call Grouping::toString()
@@ -259,26 +260,38 @@ string Aggregator::toString() {
 
     //if (this->region != NULL_STRING) {change description to use this->region as the name}
     //if (description is nameless) {use this->planet as the name}
-    string name = NULL_STRING;
-    if (this->region != NULL_STRING) {name = this->region;}
-    else if (this->planet != NULL_STRING) {name = this->planet;}
+
+    string name = NULL_STRING; // Default, all country and province aggs
+    if (this->region != NULL_STRING) {name = this->region;} // region agg, bay area
+    else if (this->province != NULL_STRING) {name = this->province;} // province
+    else if (this->country != NULL_STRING) {name = this->country;} // contry
+    else if (this->planet != NULL_STRING) {name = this->planet;} // planet agg, Terra
+
     //Name: text;  
     //Get everything about the counts and the dates
     // a cast is when you say I'm going to cast a variable in another role
     //  than how it's defined. Casting a float from an int: int score = (int) 77.3;
     // We're casting a Aggregator pointer to a Grouping pointer
     // ((Grouping *)this)->toString();
-    string description = this->Grouping::toString();
-#undef DBG
+    string description = this->Grouping::toString(); // Get string from Grouping
+
 #ifdef DBG
 cout << "Agg to string was called" << endl;
 #endif
-#define DBG    
-    delimPos = description.find(BLANK);
-    if (delimPos==string::npos){
+    
+    delimPos1 = description.find(COLON); // find space
+    if (delimPos1==string::npos){
         cout << "Couldn't find the delim" << endl; 
-    }
-    description = description.substr(0,delimPos + 1) + name + description.substr(delimPos + name.length() + 1, description.length() - delimPos);
+    } // if
+    delimPos2 = description.find("|"); // find pipe
+    if (delimPos2==string::npos){
+        cout << "Couldn't find the delim" << endl; 
+    } // if
+    sprintf(text, "%s %- 14s %s", description.substr(0,delimPos1 + 1).c_str(), name.c_str(), description.substr(delimPos2, description.length() - delimPos2).c_str()); 
+    // insert name into string, did sprintf instead of string cat for better formatting
+
+    description = text; // store c_string into string
+
     //This is the point where we supply the Name if needed.  That is, if this is either of
     // our two special Aggregator objets, the one that represents Terra, and the one
     // that represents the Bay Area.
@@ -299,15 +312,16 @@ string Grouping::toString() {
     string description;
     char text[4000];  //create C-string buffer for sprintf()
     char text2[4000];  //Create another C-string buffer
-#undef DBG
+
 #ifdef DBG
 cout << "Grp to string was called" << endl;
 #endif
-#define DBG
+
     string name = NULL_STRING, secondLineStart = NULL_STRING;
     if (this->county != NULL_STRING) {name = this->county;}
-    else if (this->province != NULL_STRING) {name = this->province;}
-    else if (this->country != NULL_STRING) {name = this->country;}
+    // else if (this->province != NULL_STRING) {name = this->province;}
+    // else if (this->country != NULL_STRING) {name = this->country;}
+    // Moved to Aggregator for formatting reasons
 
     if (this->getSampleSize() == 0) {
         return "Name: " + name + " No data collected.";
@@ -315,15 +329,19 @@ cout << "Grp to string was called" << endl;
     else  {
         //create a description of the first sample
         Sample firstSample = this->samples[0];
-        float firstInfectionRate = ((float)firstSample.getC()/this->population) * 100;
-#undef DBG
+        float firstInfectionRate = ((float)firstSample.getC()/this->population) * 100; // cast as float to do float div, multiple 100 for percent value
+
 #ifdef DBG
     cout << "Infected: "<< firstSample.getC() << "Population" << this->population << endl;
 #endif
-#define DBG
+
         string firstDateStr = firstSample.getDateStr();
 
         sprintf(text,"Name: %- 14s | Start Date: %s | Infection Rate: % 2.3f%% | Cases: % 9d | Deceased: % 9d\n", name.c_str(), firstDateStr.c_str(), firstInfectionRate, firstSample.getC(), firstSample.getD());
+        // %- 14s the - is to left justify, the space is the filler character, 14 is the number of reserved spaces, s for string
+        // % 2.3f the space after % is setting the filler character, 2 is the space reserved before decimal, .3 is the number of decimal places, f for float
+        // %% is to display % character       
+
         description = text;
 
     }
@@ -334,7 +352,7 @@ cout << "Grp to string was called" << endl;
         strcpy(text2,text); //strcpy works right-to-left
 
         Sample lastSample = this->samples[this->samples.size()-1];
-        float lastInfectionRate = ((float)lastSample.getC()/this->population)*100;
+        float lastInfectionRate = ((float)lastSample.getC()/this->population) * 100; // same as firstInfectionRate 
         string lastDateStr = lastSample.getDateStr();
     
         for (int idx = 0; idx < 20; ++idx){
@@ -342,6 +360,7 @@ cout << "Grp to string was called" << endl;
         }
 
         sprintf(text,"%s\n%s | End Date:   %s | Infection rate: % 2.3f%% | Cases: % 9d | Deceased: % 9d\n", text2,secondLineStart.c_str(),lastDateStr.c_str(), lastInfectionRate, lastSample.getC(),lastSample.getD());
+
 
         float caseGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'C'); // replaced this. with this->
         float decGrowthRate = this->CompoundDailyGrowthRate(0,this->samples.size()-1,'D'); // same as above
@@ -471,14 +490,14 @@ bool CSV::update(vector<Directory> filters_, TextList aNames_) {
         //Get aggregate name from aName_ -done-
         string name = aNames_[idx]; //-done- -was missing _ L-
         //This is how we might use a simple version of toString() in our development process
-#undef DBG
+
 #ifdef DBG
         if (name == CAN) {
 
            cout << "Trace: " << aFilter_[name]->agg->toString() << endl;
         }
 #endif
-#define DBG
+
         /*
         *  something is off in this part:
         *  if (country.compare(name) == 0) { (aFilter_[country]->agg->add(name) }
@@ -895,7 +914,7 @@ int main( ) {
     for (int idx = 0; idx < aNames.size() ; ++idx){
         cout << aFilter[aNames[idx]]->agg->toString() << endl;
     }
-#undef DBG
+
 #ifdef DBG
     cout << "bNames size: " << bNames.size() << endl;
 #endif
